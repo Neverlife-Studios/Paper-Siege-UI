@@ -1,5 +1,6 @@
 local Types = require(script.Parent:WaitForChild("Types"))
-local Pages = script.Parent:WaitForChild("Pages")
+local PagesFolder = script.Parent:WaitForChild("Pages")
+local EffectsFolder = script.Parent:WaitForChild("Effects")
 
 --[=[
     @class UiController
@@ -15,6 +16,14 @@ local UiController: Types.UiController = {}
     Tells which page is currently being displayed
 ]=]
 UiController.CurrentPage = ""
+
+--[=[
+    @prop Effects {table}
+    @client
+    @within UiController
+    Contains the various UI Effects which can be utilised by various UI elements
+]=]
+UiController.Effects = {}
 
 --[=[
     @prop Frames {Frame}
@@ -58,9 +67,7 @@ function UiController:Init(Interface: string, StartingPage: string)
 
     self:LoadFrames()
 
-    for Page in Pages:GetChildren() do
-        self.Pages[Page.Name] = require(Page)
-    end
+    self:LoadPages()
 
     self:InitPages()
 
@@ -83,12 +90,32 @@ end
 
 --[=[
     @client
+    Loads all the UI Effects from Effects folder
+]=]
+function UiController:LoadEffects()
+    for Effect in EffectsFolder:GetChildren() do
+        self.Effects[Effect.Name] = require(Effect)
+    end
+end
+
+--[=[
+    @client
     Loads the frames from GuiInterface
 ]=]
 function UiController:LoadFrames()
     for Frame in self.GuiInterface:GetChildren() do
         if not Frame:IsA("Frame") then continue end
         self.Frames[Frame.Name] = Frame
+    end
+end
+
+--[=[
+    @client
+    Loads the pages from Pages folder
+]=]
+function UiController:LoadPages()
+    for Page in PagesFolder:GetChildren() do
+        self.Pages[Page.Name] = require(Page)
     end
 end
 
