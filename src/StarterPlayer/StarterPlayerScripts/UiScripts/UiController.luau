@@ -57,6 +57,7 @@ UiController.Pages = {}
     @param StartingPage string -- The name of a page to be made visible as default
 ]=]
 function UiController:Init(Interface: string, StartingPage: string)
+    print("UiController => Init")
     self.GuiInterface = game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild(Interface)
 
     if not self.GuiInterface then
@@ -64,6 +65,8 @@ function UiController:Init(Interface: string, StartingPage: string)
     end
 
     self:LoadFrames()
+
+    self:LoadEffects()
 
     self:LoadPages()
 
@@ -81,6 +84,7 @@ end
     Starts all the pages one-by-one, literally
 ]=]
 function UiController:InitPages()
+    print("UiController => Init pages")
     for Name, Page in self.Pages do
         Page:Init(self, self.Frames[Name])
     end
@@ -91,6 +95,7 @@ end
     Loads all the UI Effects from Effects folder
 ]=]
 function UiController:LoadEffects()
+    print("UiController => Load effects")
     for _, Effect in EffectsFolder:GetChildren() do
         self.Effects[Effect.Name] = require(Effect)
     end
@@ -101,6 +106,7 @@ end
     Loads the frames from GuiInterface
 ]=]
 function UiController:LoadFrames()
+    print("UiController => Load frames")
     for _, Frame in self.GuiInterface:GetChildren() do
         if not Frame:IsA("Frame") then continue end
         self.Frames[Frame.Name] = Frame
@@ -112,6 +118,7 @@ end
     Loads the pages from Pages folder
 ]=]
 function UiController:LoadPages()
+    print("UiController => Load pages")
     for _, Page in PagesFolder:GetChildren() do
         self.Pages[Page.Name] = require(Page)
     end
@@ -124,6 +131,7 @@ end
     @param Page string -- The name of the page to be made visible
 ]=]
 function UiController:ShowPage(Page: string)
+    print("UiController => Show page: "..Page)
     if self.CurrentPage == Page then return end
     if not self.Frames[Page] then
         error("UI Controller => Invalid page to display: "..Page)

@@ -21,12 +21,13 @@ function Page:LoadConnections()
     print(Name.." Page => Add connections and stuff")
     for _, Element in self.Frame:GetDescendants() do
         if Element:IsA("TextButton") or Element:IsA("ImageButton") then
-            Connections.ButtonClickEffect[TableLength(Connections.ButtonClickEffect)] = Element.MouseButton1Click:Connect(self.UiController.Effects.Button.Click)
+            Connections.ButtonClickEffect[TableLength(Connections.ButtonClickEffect)] = Element.MouseButton1Click:Connect(self.UiController.Effects.Button["Click"])
         end
     end
 end
 
 function Page:Init(UiController, Frame)
+    print(Name.." Page => Init")
     if not UiController then
         error(Name.." Page => UiController is invalid")
         return

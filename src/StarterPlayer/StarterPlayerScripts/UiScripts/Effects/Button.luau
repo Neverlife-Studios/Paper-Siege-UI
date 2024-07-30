@@ -1,6 +1,6 @@
 local Effect = {}
 
-function Effect.Click()
+Effect["Click"] = function ()
     print("Button click")
 end
 
