@@ -63,15 +63,13 @@ function UiController:Init(Interface: string, StartingPage: string)
         error("UI Controller => I lack the power to create the inital spark")
     end
 
-    Pages = script.Parent:WaitForChild("Pages")
-
     self:LoadFrames()
 
     self:LoadPages()
 
     self:InitPages()
 
-    if self.Pages[StartingPage] and self.Frames[StartingPage] then
+    if self.Frames[StartingPage] then
         self:ShowPage(StartingPage)
     else
         error("UI Controller => Invalid starting page: "..StartingPage)
@@ -83,8 +81,8 @@ end
     Starts all the pages one-by-one, literally
 ]=]
 function UiController:InitPages()
-    for Page in self.Pages do
-        Page:Init(self)
+    for Name, Page in self.Pages do
+        Page:Init(self, self.Frames[Name])
     end
 end
 
@@ -128,13 +126,18 @@ end
 function UiController:ShowPage(Page: string)
     if self.CurrentPage == Page then return end
     if not self.Frames[Page] then
-        error("UI Controller => Invalid page to show: "..Page)
+        error("UI Controller => Invalid page to display: "..Page)
         return
     end
 
-    self.Frames[self.CurrentPage].Visible = true
+    for Frame in self.Frames do
+        if Frame.Name == Page then
+            Frame.Visible = true
+        else
+            Frame.Visible = false
+        end
+    end
     self.CurrentPage = Page
-    self.Frames[Page].Visible = false
 end
 
 return UiController
