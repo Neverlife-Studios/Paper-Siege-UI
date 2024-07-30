@@ -91,7 +91,7 @@ end
     Loads all the UI Effects from Effects folder
 ]=]
 function UiController:LoadEffects()
-    for Effect in EffectsFolder:GetChildren() do
+    for _, Effect in EffectsFolder:GetChildren() do
         self.Effects[Effect.Name] = require(Effect)
     end
 end
@@ -101,7 +101,7 @@ end
     Loads the frames from GuiInterface
 ]=]
 function UiController:LoadFrames()
-    for Frame in self.GuiInterface:GetChildren() do
+    for _, Frame in self.GuiInterface:GetChildren() do
         if not Frame:IsA("Frame") then continue end
         self.Frames[Frame.Name] = Frame
     end
@@ -112,7 +112,7 @@ end
     Loads the pages from Pages folder
 ]=]
 function UiController:LoadPages()
-    for Page in PagesFolder:GetChildren() do
+    for _, Page in PagesFolder:GetChildren() do
         self.Pages[Page.Name] = require(Page)
     end
 end
@@ -130,7 +130,7 @@ function UiController:ShowPage(Page: string)
         return
     end
 
-    for Frame in self.Frames do
+    for _, Frame in self.Frames do
         if Frame.Name == Page then
             Frame.Visible = true
         else

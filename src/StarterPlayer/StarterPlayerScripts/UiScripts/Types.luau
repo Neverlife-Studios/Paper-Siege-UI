@@ -12,3 +12,5 @@ export type UiController = {
     LoadPages: () -> (),
     ShowPage: (Page: string) -> ()
 }
+
+return nil

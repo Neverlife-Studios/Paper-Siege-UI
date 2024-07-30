@@ -8,7 +8,7 @@ local function TableLength(arr)
     return len
 end
 
-local Name = ""
+local Name = script.Name
 local Connections = {
     ButtonClickEffect = {}
 }
@@ -19,7 +19,7 @@ local Page = {
 
 function Page:LoadConnections()
     print(Name.." Page => Add connections and stuff")
-    for Element in self.Frame:GetDescendants() do
+    for _, Element in self.Frame:GetDescendants() do
         if Element:IsA("TextButton") or Element:IsA("ImageButton") then
             Connections.ButtonClickEffect[TableLength(Connections.ButtonClickEffect)] = Element.MouseButton1Click:Connect(self.UiController.Effects.Button.Click)
         end
