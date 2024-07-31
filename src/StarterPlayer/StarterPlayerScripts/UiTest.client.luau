@@ -6,10 +6,10 @@ task.wait(5)
 
 UiController:ShowPage("MainMenu")
 
-task.wait(5)
+-- task.wait(5)
 
-UiController:ShowPage("Shop")
+-- UiController:ShowPage("Shop")
 
-task.wait(5)
+-- task.wait(5)
 
-UiController:ShowPage("Settings")
+-- UiController:ShowPage("Settings")

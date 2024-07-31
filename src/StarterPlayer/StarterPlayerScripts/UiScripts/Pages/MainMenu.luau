@@ -21,6 +21,7 @@ function Page:LoadConnections()
     print(Name.." Page => Add connections and stuff")
     for _, Element in self.Frame:GetDescendants() do
         if Element:IsA("TextButton") or Element:IsA("ImageButton") then
+            if not Element.Active then continue end
             Connections.ButtonClickEffect[TableLength(Connections.ButtonClickEffect)] = Element.MouseButton1Click:Connect(self.UiController.Effects.Button["Click"])
         end
     end
