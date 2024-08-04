@@ -43,7 +43,7 @@ function Page:Init(UiController, Frame)
     end
     self.UiController = UiController
     self.Frame = Frame
-    ReturnButton = self.Frame.Return
+    ReturnButton = self.Frame.Main.Return
     self:LoadConnections()
 end
 

@@ -1,6 +1,7 @@
 local Types = require(script.Parent:WaitForChild("Types"))
 local PagesFolder = script.Parent:WaitForChild("Pages")
 local EffectsFolder = script.Parent:WaitForChild("Effects")
+local SoundsFolder = script.Parent:WaitForChild("Sounds")
 
 --[=[
     @class UiController
@@ -50,6 +51,14 @@ UiController.GuiInterface = {}
 UiController.Pages = {}
 
 --[=[
+    @prop Sounds Folder
+    @client
+    @within UiController
+    Contains the sounds
+]=]
+UiController.Sounds = nil
+
+--[=[
     @client
     Starts the controller, literally
 
@@ -77,6 +86,14 @@ function UiController:Init(Interface: string, StartingPage: string)
     else
         error("UI Controller => Invalid starting page: "..StartingPage)
     end
+
+    if not SoundsFolder then
+        warn("UI Controller => Sounds folder does not exist")
+    else
+        SoundsFolder.Name = "UiController"
+        SoundsFolder.Parent = game.Workspace
+        self.Sounds = SoundsFolder
+    end
 end
 
 --[=[
@@ -98,6 +115,7 @@ function UiController:LoadEffects()
     print("UiController => Load effects")
     for _, Effect in EffectsFolder:GetChildren() do
         self.Effects[Effect.Name] = require(Effect)
+        self.Effects[Effect.Name].UiController = self
     end
 end
 
@@ -131,6 +149,7 @@ end
     @param Page string -- The name of the page to be made visible
 ]=]
 function UiController:ShowPage(Page: string)
+    if Page == "" then return end
     print("UiController => Show page: "..Page)
     if self.CurrentPage == Page then return end
     if not self.Frames[Page] then
@@ -138,10 +157,10 @@ function UiController:ShowPage(Page: string)
         return
     end
 
+    self.Frames[Page].Visible = true
+    self.Pages[Page].PreviousPage = self.CurrentPage
     for _, Frame in self.Frames do
-        if Frame.Name == Page then
-            Frame.Visible = true
-        else
+        if Frame.Name ~= Page then
             Frame.Visible = false
         end
     end

@@ -1,28 +1,32 @@
 -- Used as a template
 
-local function TableLength(arr)
-    local len = 0
-    for _,v in ipairs(arr) do
-        len += 1
-    end
-    return len
-end
-
 local Name = script.Name
-local Connections = {
-    ButtonClickEffect = {}
-}
 local Page = {
     UiController = nil,
-    Frame = {}
+    Frame = {},
+    PreviousPage = ""
 }
+
+local ReturnButton = nil
 
 function Page:LoadConnections()
     print(Name.." Page => Add connections and stuff")
     for _, Element in self.Frame:GetDescendants() do
         if Element:IsA("TextButton") or Element:IsA("ImageButton") then
             if not Element.Active then continue end
-            Connections.ButtonClickEffect[TableLength(Connections.ButtonClickEffect)] = Element.MouseButton1Click:Connect(self.UiController.Effects.Button["Click"])
+            Element.MouseButton1Click:Connect(function()
+                self.UiController.Effects.Button["Click"]()
+                if Element == ReturnButton then
+                    if self.PreviousPage == "" then return end
+                    self.UiController:ShowPage(self.PreviousPage)
+                end
+            end)
+            Element.MouseEnter:Connect(function()
+                self.UiController.Effects.Button["Hover"]()
+            end)
+            Element.MouseLeave:Connect(function()
+                self.UiController.Effects.Button["Hover"]()
+            end)
         end
     end
 end
